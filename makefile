@@ -12,6 +12,8 @@ openshift:
 	ssh -A ec2-user@$$(terraform output bastion-public_ip) "ssh-keyscan -t rsa -H node1.openshift.local >> ~/.ssh/known_hosts"
 	ssh -A ec2-user@$$(terraform output bastion-public_ip) "ssh-keyscan -t rsa -H node2.openshift.local >> ~/.ssh/known_hosts"
 	ssh -A ec2-user@$$(terraform output bastion-public_ip) "ssh-keyscan -t rsa -H node3.openshift.local >> ~/.ssh/known_hosts"
+	ssh -A ec2-user@$$(terraform output bastion-public_ip) "ssh-keyscan -t rsa -H node4.openshift.local >> ~/.ssh/known_hosts"
+	ssh -A ec2-user@$$(terraform output bastion-public_ip) "ssh-keyscan -t rsa -H node4.openshift.local >> ~/.ssh/known_hosts"
 
 	# Copy our inventory to the master and run the install script.
 	scp ./inventory.cfg ec2-user@$$(terraform output bastion-public_ip):~
@@ -24,6 +26,8 @@ openshift:
 	- cat ./scripts/postinstall-node.sh | ssh -A ec2-user@$$(terraform output bastion-public_ip) ssh node1.openshift.local
 	- cat ./scripts/postinstall-node.sh | ssh -A ec2-user@$$(terraform output bastion-public_ip) ssh node2.openshift.local
 	- cat ./scripts/postinstall-node.sh | ssh -A ec2-user@$$(terraform output bastion-public_ip) ssh node3.openshift.local
+	- cat ./scripts/postinstall-node.sh | ssh -A ec2-user@$$(terraform output bastion-public_ip) ssh node4.openshift.local
+	- cat ./scripts/postinstall-node.sh | ssh -A ec2-user@$$(terraform output bastion-public_ip) ssh node5.openshift.local
 	echo "Complete! Wait a minute for hosts to restart, then run 'make browse-openshift' to login."
 
 # Destroy the infrastructure.
